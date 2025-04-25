@@ -1,0 +1,30 @@
+%-----paper fig3
+close all;
+
+h1=smooth(tempa_o2ad,12);
+% h1sm=annual(h1,1);
+% yr=annual(yr1,1);
+
+% -------------------------method 1 powerspectra\power_spectrum
+m=length(h1)/2;tag=1;
+[ssp,t,ttt,kkk,r,freq,ss_c]=power_spectrum(h1,m,tag,'SLA'); %T=1./freq
+
+%--- Plot power spectrum
+Fig = figure('position',[700 100 800 400]);
+   h=plot(1./freq(2:end,1),abs(ssp(2:end,1)),'b','Linewidth',2);hold on;
+   plot(1./freq(2:end,1),ss_c(2:m+1,1),'r--','Linewidth',2);hold off;
+set(gca,'XLim',[0,500]);
+set(gca,'XTick',[0:10:80],'FontSize',12);
+set(gca,'YLim',[0,.4],'YTick',[0:.1:.4]);
+xlabel('Period (years)','fontsize',12);ylabel('Power');
+%print(Fig,['G:\figures\IAP\Yearly\20230911_IPO_SouthernOcean_46_61S\Power_spectra_rawPmAI.png'],'-dpng','-r300')
+%% -------------------------method 2 con_spectrum.m
+var = spacd_0;
+rtau1 = corrcoef(var(1:end-1),var(2:end));
+[obs,omega,rtau,ps_obs,ps_noise,corr,corrp]=con_spectrum(var,1,rtau1(2,1),1,5,1)
+
+close all
+plot(ps_obs(:,1))
+hold on
+plot(ps_noise)
+

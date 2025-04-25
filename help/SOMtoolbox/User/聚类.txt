@@ -1,0 +1,2 @@
+T=clusterdata(new_field','linkage','ward','savememory','on','maxclust',9);
+[IDX,C,sumd,D] = kmeans(new_field',8,'MaxIter',100,'Display','final','Replicates',20);
